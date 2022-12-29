@@ -34,7 +34,7 @@ public class MovieController {
 
     // 3. Pair an Existing Movie and Director
     @PostMapping("/movies/add-movie-director-pair")
-    public ResponseEntity<String> addMovieDirectorPair(@RequestParam("movieName") String movieName, @RequestParam("directorName") String directorName){
+    public ResponseEntity<String> addMovieDirectorPair(@RequestParam String movieName, String directorName){
 
         String response = movieService.addMovieDirectorPair(movieName, directorName);
 
@@ -68,9 +68,9 @@ public class MovieController {
     // 6. Get List of movies name for a given director name
 
     @GetMapping("/movies/get-movies-by-director-name/{director}")
-    public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable("name") String directorName){
+    public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable("name") String director){
 
-        List<String> movieList = movieService.getMoviesByDirectorName(directorName);
+        List<String> movieList = movieService.getMoviesByDirectorName(director);
 
         if(movieList == null){
             return new ResponseEntity<>(movieList, HttpStatus.BAD_REQUEST);
