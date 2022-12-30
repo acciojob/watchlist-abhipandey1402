@@ -31,11 +31,15 @@ public class MovieRepository {
 
     public String addMovieDirectorPair(String movie, String director){
 
-        if(movieDirectorDb.containsKey(director)){
-            movieDirectorDb.get(director).add(movie);
-        } else{
-            movieDirectorDb.put(director, new ArrayList<>());
-            movieDirectorDb.get(director).add(movie);
+        if(movieDb.containsKey(movie) && directorDb.containsKey(director)){
+            List<String> currMoviesByDirector = new ArrayList<>();
+
+            if(movieDirectorDb.containsKey(director))
+            currMoviesByDirector = movieDirectorDb.get(director);
+
+            currMoviesByDirector.add(movie);
+
+            movieDirectorDb.put(director, currMoviesByDirector);
         }
         return "success";
     }
@@ -55,16 +59,15 @@ public class MovieRepository {
     }
 
     public List<String> getMoviesByDirectorName(String director){
-        return movieDirectorDb.getOrDefault(director, null);
+        List<String> movieList = new ArrayList<>();
+        if(movieDirectorDb.containsKey(director)){
+            movieList = movieDirectorDb.get(director);
+        }
+        return movieList;
     }
 
     public List<String> findAllMovies(){
-        List<String> list = new ArrayList<>();
-
-        for(String s : movieDb.keySet()){
-            list.add(s);
-        }
-        return list;
+        return new ArrayList<>(movieDb.keySet());
     }
 
     public String deleteDirectorByName(String director){

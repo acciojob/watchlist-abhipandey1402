@@ -16,34 +16,34 @@ public class MovieController {
 
     // 1. Add a Movie
     @PostMapping("/movies/add-movie")
-    public ResponseEntity<String> addMovie(@RequestBody() Movie movie){
+    public ResponseEntity<String> addMovie(@RequestBody Movie movie){
 
         String response = movieService.addMovie(movie);
 
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     // 2. Add a Director
     @PostMapping("/movies/add-director")
-    public ResponseEntity<String> addDirector(@RequestBody() Director director){
+    public ResponseEntity<String> addDirector(@RequestBody Director director){
 
         String response = movieService.addDirector(director);
 
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     // 3. Pair an Existing Movie and Director
     @PostMapping("/movies/add-movie-director-pair")
-    public ResponseEntity<String> addMovieDirectorPair(@RequestParam String movieName, String directorName){
+    public ResponseEntity<String> addMovieDirectorPair(@RequestParam("movie") String movie, @RequestParam("director") String director){
 
-        String response = movieService.addMovieDirectorPair(movieName, directorName);
+        String response = movieService.addMovieDirectorPair(movie, director);
 
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
     // 4. Get Movie by movieName as Path Variable
     @GetMapping("/movies/get-movie-by-name/{name}")
-    public ResponseEntity<Movie> getMovieByName(@PathVariable("name") String movieName){
+    public ResponseEntity<Movie> getMovieByName(@PathVariable String movieName){
 
         Movie movieObj = movieService.getMovieByName(movieName);
 
@@ -55,7 +55,7 @@ public class MovieController {
 
     // 5. Get Director by Director Name
     @GetMapping("/movies/get-director-by-name/{name}")
-    public ResponseEntity<Director> getDirectorByName(@PathVariable("name") String directorName){
+    public ResponseEntity<Director> getDirectorByName(@PathVariable String directorName){
 
         Director directorObj = movieService.getDirectorByName(directorName);
 
@@ -68,7 +68,7 @@ public class MovieController {
     // 6. Get List of movies name for a given director name
 
     @GetMapping("/movies/get-movies-by-director-name/{director}")
-    public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable("name") String director){
+    public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable String director){
 
         List<String> movieList = movieService.getMoviesByDirectorName(director);
 
